@@ -19,7 +19,7 @@ const editBoard: FC<IProps> = ({ content, toModifyCb, ...layout }) => {
   }, [content])
 
   return (
-    <div {...layout} className={editFormStyles.container_editBoard}>
+    <>
       {componentList.map((item, index) => (
         <ListItem
           toModifyCb={toModifyCb}
@@ -28,7 +28,7 @@ const editBoard: FC<IProps> = ({ content, toModifyCb, ...layout }) => {
           contentItemIndex={index}
         />
       ))}
-    </div>
+    </>
   )
 }
 

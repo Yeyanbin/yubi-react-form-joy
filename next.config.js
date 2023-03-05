@@ -9,6 +9,7 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  basePath: '/yubi-react-schema-form',
   exportTrailingSlash: true,
   exportPathMap() {
     return {

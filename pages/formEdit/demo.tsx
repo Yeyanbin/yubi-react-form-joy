@@ -15,7 +15,7 @@ interface IProps {
 
 const helloworldPage = (props: IProps) => {
   const onChange = formValue => {
-    console.log('change formValue', formValue)
+    // console.log('change formValue', formValue)
     setFormValue(formValue)
   }
 
@@ -44,7 +44,7 @@ const helloworldPage = (props: IProps) => {
           content={formContent}
           change={onChange}
         />
-        <span>{JSON.stringify(formValue)}</span>
+        <span style={{ width: '400px' }}>{JSON.stringify(formValue)}</span>
       </div>
     </div>
   )
@@ -109,6 +109,11 @@ const defaultFormContent = [
       { label: 'Orange', value: 'Orange', disabled: true },
     ],
   },
+  {
+    label: '选项测试',
+    component: 'OptionInput',
+    prop: 'optionChoose',
+  }
 ]
 
 export default helloworldPage

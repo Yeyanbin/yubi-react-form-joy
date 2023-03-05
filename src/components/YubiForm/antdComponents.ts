@@ -1,5 +1,6 @@
 import { Input, Select, Radio } from 'antd'
 import { IFormSchema, ISchemaItem } from './type'
+import OptionInput from './components/optionInput';
 
 export const componetMap = {
   Input,
@@ -8,6 +9,7 @@ export const componetMap = {
   'Input.TextArea': Input.TextArea,
   Select,
   Radio: Radio.Group,
+  OptionInput,
 }
 
 export type TComponentType = 'Input' | 'Select' | 'Radio' | undefined

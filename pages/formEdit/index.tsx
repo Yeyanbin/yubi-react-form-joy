@@ -10,6 +10,7 @@ import {
   schemaForm,
   schemaItemBaseForm,
 } from 'pagesComponents/editForm/formConfig'
+import { PlusOutlined } from '@ant-design/icons';
 
 interface IProps {
   formContent: ISchemaItem[]
@@ -52,6 +53,13 @@ const FormEdit: FC<IProps> = ({ formConfig, formContent }) => {
     console.log('changeSchemaItemComponentSelf', schemaItem)
   }
 
+  const addContent = () => {
+    setRenderContent([
+      ...renderContent,
+      ...useAntdComponent([{ component: 'Input', prop: 'default', label: 'default' }])
+    ])
+  };
+
   useEffect(() => {
     setNowComponentType(nowModify?.contentItem.component)
   }, [nowModify])
@@ -63,7 +71,19 @@ const FormEdit: FC<IProps> = ({ formConfig, formContent }) => {
 
   return (
     <div className={editFormStyles.container}>
-      <EditBoard toModifyCb={toModify} content={renderContent} />
+      <div className={editFormStyles.container_editBoard}>
+        <EditBoard toModifyCb={toModify} content={renderContent} />
+        <div className={editFormStyles.container_editBoard_item}>
+          <Button
+            type="dashed"
+            style={{ width: '450px' }}
+            onClick={addContent}
+            icon={<PlusOutlined />}
+          >
+            增加表单项
+          </Button>
+        </div>
+      </div>
       <div>
         <Card
           title="表单属性"

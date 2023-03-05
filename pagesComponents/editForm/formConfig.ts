@@ -84,13 +84,42 @@ export const schemaInputForm: IFormSchema = {
   ],
 }
 
+export const schemaSelectForm: IFormSchema = {
+  config: {
+    name: '选择器表单',
+  },
+  content: [
+    {
+      component: 'OptionInput',
+      prop: 'options',
+      label: '选项'
+    }
+  ]
+};
+
+export const schemaRadioForm: IFormSchema = {
+  config: {
+    name: '选择器表单',
+  },
+  content: [
+    {
+      component: 'OptionInput',
+      prop: 'options',
+      label: '选项'
+    }
+  ]
+};
+
+
 export const schemaInputDefaultValue = {
   // prop: ''
 }
 
 const ANTD_COMPONENT_SCHEMA_MAP = {
   Input: schemaInputForm,
-}
+  Select: schemaSelectForm,
+  Radio: schemaRadioForm,
+};
 
 export const getAntdComponentSchema = (componentType: TComponentType) =>
   componentType
