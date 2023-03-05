@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  margin: 10px 20px;
+
+  &_editBoard {
+    padding: 0 10px;
+    width: 600px;
+
+    :global(.ant-form-item) {
+      margin-bottom: 0px;
+    }
+
+    &_item {
+      border: 1px solid #cdcdcd;
+      margin: 5px 0;
+      padding: 10px 20px;
+      display: flex;
+      border-radius: 20px;
+      justify-content: space-between;
+      align-items: center;
+      width: 480px;
+
+      &__content {
+        width: 300px;
+        overflow: scroll;
+      }
+
+      &__btn {
+
+        button {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+}

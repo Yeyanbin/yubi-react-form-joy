@@ -1,0 +1,11 @@
+
+// @type
+.container {
+  display: flex;
+  margin: 10px 20px;
+
+  &_jsonSchema {
+    padding: 0 10px;
+    width: 600px;
+  }
+}
