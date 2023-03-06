@@ -31,11 +31,20 @@ const helloworldPage = (props: IProps) => {
 
   return (
     <div className={editFormDemoStyles.container}>
-      <JsonEditor
-        className={editFormDemoStyles.container_jsonSchema}
-        content={props.formContent}
-        change={setOriginFormContent}
-      />
+      <div>
+        <h2>表单配置</h2>
+        <JsonEditor
+          height="500px"
+          className={editFormDemoStyles.container_jsonSchema}
+          content={props.formContent}
+          change={setOriginFormContent}
+        />
+        <h2>表单值</h2>
+        <JsonEditor
+          height="200px"
+          className={editFormDemoStyles.container_jsonSchema}
+          content={formValue} />
+      </div>
       <div>
         <YubiForm
           style={{
@@ -44,7 +53,6 @@ const helloworldPage = (props: IProps) => {
           content={formContent}
           change={onChange}
         />
-        <span style={{ width: '400px' }}>{JSON.stringify(formValue)}</span>
       </div>
     </div>
   )

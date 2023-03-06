@@ -1,6 +1,5 @@
 import {
   TComponentType,
-  useAntdComponent,
   useAntdComponentByFormSchema,
 } from 'src/components/YubiForm/antdComponents'
 import { IFormSchema } from 'src/components/YubiForm/type'
@@ -82,6 +81,11 @@ export const schemaInputForm: IFormSchema = {
       },
     },
   ],
+  defaultState: {
+    attr: {
+      placeholder: ''
+    },
+  }
 }
 
 export const schemaSelectForm: IFormSchema = {

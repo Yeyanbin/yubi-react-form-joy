@@ -24,7 +24,8 @@ interface IProps {
   config?: IFormConfig
   state?: any
   style?: any
-  change?: (formValue: any) => void
+  change?: (formValue: any) => void,
+  // reset?: () => void;
   [key: string]: any
 }
 
@@ -53,6 +54,10 @@ const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, config, change, ..
     setFormValue(obj)
     change?.(obj)
   }
+
+  // const onReset = () => {
+  //   formRef.current?.resetFields();
+  // };
 
   const FormContent = formContent?.map(formItem => (
     <YubiFormItem key={`yubiFormItem-${formItem.prop}`} formItem={formItem} />

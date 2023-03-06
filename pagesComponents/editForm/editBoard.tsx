@@ -8,9 +8,10 @@ import ListItem from './listItem'
 interface IProps {
   content: ISchemaItem[]
   toModifyCb: (contentItem: ISchemaItem, index: number) => void
+  toDeleteCb: (index: number) => void
 }
 
-const editBoard: FC<IProps> = ({ content, toModifyCb, ...layout }) => {
+const editBoard: FC<IProps> = ({ content, toModifyCb, toDeleteCb, ...layout }) => {
   const [componentList, setComponentList] = useState(content)
   // const [pageType, setPageType] = useState();
 
@@ -22,6 +23,7 @@ const editBoard: FC<IProps> = ({ content, toModifyCb, ...layout }) => {
     <>
       {componentList.map((item, index) => (
         <ListItem
+          toDeleteCb={toDeleteCb}
           toModifyCb={toModifyCb}
           key={`${item.prop}-${index}`}
           contentItem={item}

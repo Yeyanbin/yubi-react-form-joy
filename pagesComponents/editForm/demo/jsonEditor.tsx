@@ -6,28 +6,31 @@ import JSONInput from 'react-json-editor-ajrm';
 
 interface IProps {
   content: any
-  change: (obj: any) => void
+  change?: (obj: any) => void
+  height: string;
   [key: string]: any
 }
 
-const jsonEditor = ({ content, change, ...layout }: IProps) => {
-  let json = JSON.stringify(content)
+const jsonEditor = ({ content, change, height, ...layout }: IProps) => {
   const [messageApi, contextHolder] = message.useMessage()
 
-  const modify = () => {
-    try {
-      change(JSON.parse(json))
-    } catch (error) {
-      messageApi.open({
-        type: 'error',
-        content: 'json不合法',
-        duration: 5,
+  const onChange = (e: any) => {
+    // json = e.target.value
+    // console.log(e);
+    if (!change) {
+      return;
+    }
+
+    if (!e.error) {
+      change(e.jsObject);
+      messageApi.success({
+        content: `修改成功`
+      })
+    } else {
+      messageApi.error({
+        content: `json不合法`
       })
     }
-  }
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    json = e.target.value
   }
 
   return (
@@ -36,11 +39,8 @@ const jsonEditor = ({ content, change, ...layout }: IProps) => {
       <JSONInput
         placeholder={content}
         id="my-json-edit-input"
-        height="600px"
-        onChange={onChange}>
-
-      </JSONInput>
-      <Button onClick={modify}>修改</Button>
+        height={height}
+        onChange={onChange} />
     </div>
   )
 }

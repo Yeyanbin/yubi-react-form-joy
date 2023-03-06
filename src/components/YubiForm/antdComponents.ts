@@ -2,6 +2,7 @@ import { Input, Select, Radio } from 'antd'
 import { IFormSchema, ISchemaItem } from './type'
 import OptionInput from './components/optionInput';
 
+// 可以搞一个HOC来封装一下，处理Expression
 export const componetMap = {
   Input,
   'Input.Password': Input.Password,

@@ -39,4 +39,5 @@ export interface IFormConfig {
 export interface IFormSchema {
   config?: IFormConfig
   content: ISchemaItem[]
+  defaultState?: any;
 }
