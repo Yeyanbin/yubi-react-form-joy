@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, message } from 'antd'
 import editFormDemoStyles from 'src/styles/editFormDemo.module.scss'
+import locale from 'react-json-editor-ajrm/locale/zh-cn';
+import JSONInput from 'react-json-editor-ajrm';
 
 interface IProps {
   content: any
@@ -31,12 +33,13 @@ const jsonEditor = ({ content, change, ...layout }: IProps) => {
   return (
     <div {...layout}>
       {contextHolder}
-      <Input.TextArea
-        style={{ height: '500px' }}
-        onChange={onChange}
-        rows={4}
-        defaultValue={json}
-      />
+      <JSONInput
+        placeholder={content}
+        id="my-json-edit-input"
+        height="600px"
+        onChange={onChange}>
+
+      </JSONInput>
       <Button onClick={modify}>修改</Button>
     </div>
   )
