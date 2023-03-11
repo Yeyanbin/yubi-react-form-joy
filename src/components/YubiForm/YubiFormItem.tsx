@@ -5,10 +5,15 @@ import { ISchemaItem } from './type'
 
 interface IProps {
   formItem: ISchemaItem
+  isEdit,
 }
 
-const YubiFormItem: FC<IProps> = ({ formItem }) => (
-  <Form.Item key={formItem.prop} name={formItem.prop} label={formItem.label}>
+const schemaFormItemEditConfig = {
+  hidden: false,
+};
+
+const YubiFormItem: FC<IProps> = ({ formItem, isEdit }) => (
+  <Form.Item key={formItem.prop} name={formItem.prop} label={formItem.label} {...formItem} {...(isEdit && schemaFormItemEditConfig)}>
     <formItem.renderComponent {...formItem.attr} options={formItem.options}>
       {formItem.innerHtml}
     </formItem.renderComponent>

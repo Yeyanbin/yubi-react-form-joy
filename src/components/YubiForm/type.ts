@@ -13,17 +13,14 @@ interface IOption {
 
 export interface ISchemaItem {
   label?: string | IExpression<string>
-  layout?: {
-    span: number | IExpression<number>
-    offset?: number | IExpression<number>
-  }
   innerHtml?: string
   prop: string
   component: string | any
-  deriveComponent?: string | any | undefined
+  // deriveComponent?: string | any | undefined
   renderComponent?: any
   options?: IOption[] // 对options类组件进行额外处理和封装
-  attr?: any
+  attr?: any;
+  hidden?: boolean;
   style?: {
     [key: string]: any
   }
@@ -33,6 +30,7 @@ export interface ISchemaItem {
 
 export interface IFormConfig {
   name: string
+  key: string
   attr?: any
 }
 
@@ -40,4 +38,10 @@ export interface IFormSchema {
   config?: IFormConfig
   content: ISchemaItem[]
   defaultState?: any;
+}
+
+export interface IBaseContentItemProps {
+  value: any;
+  onChange: (value: any) => void;
+  [attrName: string]: any;
 }

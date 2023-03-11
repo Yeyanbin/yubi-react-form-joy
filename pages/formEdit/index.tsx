@@ -16,6 +16,7 @@ import {
 import { PlusOutlined } from '@ant-design/icons';
 import { initPlanish, planishObject, rePlanishObjectSchemaItem } from 'src/components/YubiForm/utils'
 import JsonEditor from 'pagesComponents/editForm/demo/jsonEditor'
+import { getJsonByKey, getJsonByKeyList } from 'src/api/formJson'
 
 interface IProps {
   formContent: ISchemaItem[]
@@ -30,15 +31,19 @@ interface INowModify {
 const needPlanishKeyList = ['attr'];
 
 const FormEdit: FC<IProps> = ({ formConfig, formContent }) => {
-  // console.log('FormEdit', formContent);
 
   // 降维化的
   const newContent = planishObject(formContent, needPlanishKeyList);
 
-  // console.log("newContent", newContent)
+  useEffect(() => {
+    getJsonByKeyList(['test', '88']).then((resp) => {
+      console.log("getJsonByKey", resp)
+    });
+    console.log('window', window, localStorage);
+  }, [])
 
   // 目前的schema
-  const [schemaContent, setSchemaContent] = useState(newContent);
+  const [schemaContent, setSchemaContent] = useState<ISchemaItem[]>(newContent);
   // 含有渲染组件的schema
   const [renderContent, setRenderContent] = useState(useAntdComponent(schemaContent))
 
@@ -97,7 +102,12 @@ const FormEdit: FC<IProps> = ({ formConfig, formContent }) => {
   const addContent = () => {
     setSchemaContent([
       ...schemaContent,
-      ...[{ component: 'Input', prop: 'default', label: 'default' }]
+      ...[{
+        component: 'Input',
+        prop: `default-${schemaContent.length}`,
+        label: `default-${schemaContent.length}`,
+        hidden: false,
+      }]
     ])
   };
 
@@ -217,7 +227,6 @@ export const getStaticProps = async () => {
 const defaultFormContent = [
   {
     component: 'Input',
-    deriveComponent: 'Input',
     label: '登陆',
     prop: 'user',
     attr: {
@@ -225,14 +234,12 @@ const defaultFormContent = [
     },
   },
   {
-    component: 'Input',
-    deriveComponent: 'Input.Password',
+    component: 'Input.Password',
     label: '密码',
     prop: 'password',
   },
   {
-    component: 'Input',
-    deriveComponent: 'Input.TextArea',
+    component: 'Input.TextArea',
     label: '备注',
     prop: 'remark',
     attr: {

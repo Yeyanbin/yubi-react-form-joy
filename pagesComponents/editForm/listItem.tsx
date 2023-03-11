@@ -35,7 +35,7 @@ const ListItem: FC<IProps> = ({ contentItem, contentItemIndex, toModifyCb, toDel
   return (
     <div {...layout} className={editFormStyles.container_editBoard_item} onClickCapture={click}>
       <div className={editFormStyles.container_editBoard_item__content}>
-        <YubiForm change={() => { }} content={[contentItem]} />
+        <YubiForm change={() => { }} isEdit content={[contentItem]} />
       </div>
       <div className={editFormStyles.container_editBoard_item__btn}>
         <Button danger size="small" value="large" onClick={toDelete}>
