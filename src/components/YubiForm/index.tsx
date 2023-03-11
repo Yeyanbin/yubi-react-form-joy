@@ -24,24 +24,26 @@ interface IProps {
   config?: IFormConfig
   state?: any
   style?: any
+  isEdit?: boolean
   change?: (formValue: any) => void,
   // reset?: () => void;
   [key: string]: any
 }
 
-const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, config, change, ...layout }) => {
+const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, isEdit, config, change, ...layout }) => {
   const [formValue, setFormValue] = useState<any>(getDefaultFormValue(content, state))
   const [formContent, setFormContent] = useState<ISchemaItem[]>()
   const formRef = React.useRef<FormInstance>(null)
 
   useEffect(() => {
-    // console.log('重新加载 content', formValue, formRef.current)
+    console.log('重新加载 content', formValue)
     setFormContent(useFormContent(content, useExpressionCompute(state || {}, formValue || {})))
     formRef.current?.setFieldsValue(formValue || {})
+    onReset();
   }, [formValue, content])
 
   useEffect(() => {
-    // console.log('state更新');
+    console.log('state更新');
     setFormValue(state)
   }, [state])
 
@@ -55,12 +57,12 @@ const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, config, change, ..
     change?.(obj)
   }
 
-  // const onReset = () => {
-  //   formRef.current?.resetFields();
-  // };
+  const onReset = () => {
+    formRef.current?.resetFields();
+  };
 
   const FormContent = formContent?.map(formItem => (
-    <YubiFormItem key={`yubiFormItem-${formItem.prop}`} formItem={formItem} />
+    <YubiFormItem key={`yubiFormItem-${formItem.prop}`} isEdit={isEdit} formItem={formItem} />
   ))
 
   return (
