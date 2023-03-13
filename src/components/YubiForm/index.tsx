@@ -1,13 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-multi-assign */
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useImperativeHandle, useState } from 'react'
 import { Form } from 'antd'
 import { getDefaultFormValue } from 'src/libs/schemaHooks/utils'
 import useExpressionCompute from 'src/libs/schemaHooks/useExpressionCompute'
 import useFormContent from 'src/libs/schemaHooks/useFormContent'
 import { FormInstance } from 'antd/lib/form'
-import YubiFormItem from './YubiFormItem'
-import { IFormConfig, ISchemaItem } from './type'
+import YubiFormItem from './YubiFormItem';
+import { IFormConfig, IFormItem, INormalItem } from './type'
 import YubiFormStyles from './yubiForm.module.scss'
 
 interface IFieldData {
@@ -20,7 +20,7 @@ interface IFieldData {
 
 interface IProps {
   isOnlyRender?: boolean
-  content: ISchemaItem[]
+  content: Array<INormalItem | IFormItem>
   config?: IFormConfig
   state?: any
   style?: any
@@ -30,20 +30,19 @@ interface IProps {
   [key: string]: any
 }
 
-const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, isEdit, config, change, ...layout }) => {
+const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, isEdit, config, change, ...layout }, ref) => {
   const [formValue, setFormValue] = useState<any>(getDefaultFormValue(content, state))
-  const [formContent, setFormContent] = useState<ISchemaItem[]>()
+  const [formContent, setFormContent] = useState<Array<INormalItem | IFormItem>>()
   const formRef = React.useRef<FormInstance>(null)
 
   useEffect(() => {
-    console.log('重新加载 content', formValue)
+    console.log(config?.name, '重新加载 content', formValue, ...content)
     setFormContent(useFormContent(content, useExpressionCompute(state || {}, formValue || {})))
     formRef.current?.setFieldsValue(formValue || {})
-    onReset();
   }, [formValue, content])
 
   useEffect(() => {
-    console.log('state更新');
+    console.log(config?.name, 'state更新');
     setFormValue(state)
   }, [state])
 
@@ -57,12 +56,18 @@ const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, isEdit, config, ch
     change?.(obj)
   }
 
-  const onReset = () => {
+  const reset = () => {
     formRef.current?.resetFields();
   };
 
-  const FormContent = formContent?.map(formItem => (
-    <YubiFormItem key={`yubiFormItem-${formItem.prop}`} isEdit={isEdit} formItem={formItem} />
+  useImperativeHandle(ref, () => ({
+    reset: () => {
+      reset();
+    }
+  }));
+
+  const FormContent = formContent?.map((formItem, index) => (
+    <YubiFormItem key={`yubiFormItem-${(formItem as IFormItem).prop}-${index}`} isEdit={isEdit} formItem={formItem} />
   ))
 
   return (
@@ -83,4 +88,4 @@ const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, isEdit, config, ch
   )
 }
 
-export default YubiForm
+export default React.forwardRef<any, IProps>(YubiForm as any)

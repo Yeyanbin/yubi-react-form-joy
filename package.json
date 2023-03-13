@@ -39,7 +39,8 @@
     "build-storybook": "build-storybook -o ./dist_storybook",
     "analyze": "cross-env ANALYZE=true next build",
     "bump-version": "standard-version --skip.commit --skip.tag",
-    "deploy": "./scripts/githubPage.sh"
+    "deploy": "./scripts/githubPage.sh",
+    "pushAgain": "./scripts/pushAgain.sh"
   },
   "husky": {},
   "lint-staged": {

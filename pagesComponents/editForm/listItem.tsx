@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 import React, { FC, useRef, useState } from 'react'
-import { ISchemaItem } from 'src/components/YubiForm/type'
+import { INormalItem, ISchemaItem } from 'src/components/YubiForm/type'
 import YubiForm from 'src/components/YubiForm'
 import editFormStyles from 'src/styles/editForm.module.scss'
 import { Button, Radio } from 'antd'
 
 interface IProps {
-  contentItem: ISchemaItem
+  contentItem: ISchemaItem | INormalItem
   contentItemIndex: number
   toModifyCb: (contentItem: ISchemaItem, index: number) => void
   toDeleteCb: (index: number) => void
@@ -25,7 +25,7 @@ const ListItem: FC<IProps> = ({ contentItem, contentItemIndex, toModifyCb, toDel
 
   const toModify: React.MouseEventHandler<HTMLDivElement> = event => {
     console.log('click', event)
-    toModifyCb(contentItem, contentItemIndex)
+    toModifyCb(contentItem as any, contentItemIndex)
   }
 
   const toDelete = () => {

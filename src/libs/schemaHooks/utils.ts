@@ -1,4 +1,3 @@
-import { ISchemaItem } from 'src/components/YubiForm/type'
 
 /**
  * 初始化表单的值
@@ -6,7 +5,7 @@ import { ISchemaItem } from 'src/components/YubiForm/type'
  * @param state
  * @returns
  */
-export const getDefaultFormValue = (content: ISchemaItem[], state = {}) => {
+export const getDefaultFormValue = (content: any[], state = {}) => {
   const obj = {}
   content.forEach(item => {
     if (!item.prop) return

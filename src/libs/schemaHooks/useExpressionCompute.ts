@@ -4,8 +4,13 @@
 /* eslint-disable no-bitwise */
 
 interface IOptions {
-  otherOperators?: any
+  otherOperators?: any;
+  trueValue?: any;
+  falseValue?: any;
 }
+
+const DEFAULT_TRUE_VALUE = true;
+const DEFAULT_FALSE_VALUE = false;
 
 export default (state, formData, opt: IOptions = {}) => {
   const operaLevelMap = {
@@ -22,11 +27,26 @@ export default (state, formData, opt: IOptions = {}) => {
   }
 
   const operaCompute = {
-    '=': (num1, num2) => (num1 === num2 ? 1 : 0),
-    '>': (num1, num2) => (num1 > num2 ? 1 : 0),
-    '<': (num1, num2) => (num1 < num2 ? 1 : 0),
-    '&': (num1, num2) => (num1 & num2 ? 1 : 0),
-    '|': (num1, num2) => (num1 | num2 ? 1 : 0),
+    '=': (num1, num2) => {
+      const num1Type = typeof num1;
+      const num2Type = typeof num2;
+
+      if (num1Type === 'number' && num2Type === 'number') {
+        return num1 === num2 ? opt.trueValue ?? DEFAULT_TRUE_VALUE : opt.falseValue ?? DEFAULT_FALSE_VALUE;
+      }
+
+      if (num1Type === 'boolean') {
+        return num1 === !!num2;
+      }
+
+      if (num1Type === 'object' && num2Type === 'object') {
+        return JSON.stringify(num1) === JSON.stringify(num2);
+      }
+    },
+    '>': (num1, num2) => (num1 > num2 ? opt.trueValue ?? DEFAULT_TRUE_VALUE : opt.falseValue ?? DEFAULT_FALSE_VALUE),
+    '<': (num1, num2) => (num1 < num2 ? opt.trueValue ?? DEFAULT_TRUE_VALUE : opt.falseValue ?? DEFAULT_FALSE_VALUE),
+    '&': (num1, num2) => (num1 & num2 ? opt.trueValue ?? DEFAULT_TRUE_VALUE : opt.falseValue ?? DEFAULT_FALSE_VALUE),
+    '|': (num1, num2) => (num1 | num2 ? opt.trueValue ?? DEFAULT_TRUE_VALUE : opt.falseValue ?? DEFAULT_FALSE_VALUE),
     '+': (num1, num2) => num1 + num2,
     '-': (num1, num2) => num1 - num2,
     '*': (num1, num2) => num1 * num2,
@@ -100,8 +120,8 @@ export default (state, formData, opt: IOptions = {}) => {
       // 运算符情况
       if (operaLevelMap[expression[i]] !== undefined || expression[i] === '$') {
         let sign
-        // 查找运算符
-        ;[sign, i] = handleOperaSign(expression, i)
+          // 查找运算符
+          ;[sign, i] = handleOperaSign(expression, i)
 
         // 如果运算符栈中已经拥有运算符
         while (operationStack.length > 0) {
@@ -135,7 +155,7 @@ export default (state, formData, opt: IOptions = {}) => {
       } else {
         // 是 元素
         let num = 0
-        ;[num, i] = handleElement(expression, i) // 获取元素
+          ;[num, i] = handleElement(expression, i) // 获取元素
         elementStack.push(num)
       }
     }

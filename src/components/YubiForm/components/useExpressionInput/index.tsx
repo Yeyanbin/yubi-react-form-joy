@@ -27,11 +27,12 @@ const useExpressionInput = (ReactComponent) => ({ value, onChange, ...attr }: IB
 
   const click = () => {
     if (state === STATE_MAP.EXPRESSION) {
-      temp = JSON.parse(JSON.stringify(value));
+      console.log('expression')
+      temp = JSON.parse(JSON.stringify(value ?? { expression: '' }));
       onChange(recordValue ?? undefined);
       setRecordValue(temp);
     } else {
-      temp = JSON.parse(JSON.stringify(value));
+      temp = value && JSON.parse(JSON.stringify(value));
       onChange(recordValue || {
         expression: ''
       });
@@ -44,7 +45,7 @@ const useExpressionInput = (ReactComponent) => ({ value, onChange, ...attr }: IB
       {
         state === STATE_MAP.NORMAL ?
           (<ReactComponent {...attr} value={value} onChange={onChange} />)
-          : (<ExpressionInput {...attr} expression={value.expression} onChange={onChange} />)
+          : (<ExpressionInput {...attr} expression={value?.expression} onChange={onChange} />)
       }
       <Button type="primary" onClick={click}>
         {state === STATE_MAP.EXPRESSION ? '普通' : '表达式'}

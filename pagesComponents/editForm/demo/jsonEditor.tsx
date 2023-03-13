@@ -5,13 +5,14 @@ import locale from 'react-json-editor-ajrm/locale/zh-cn';
 import JSONInput from 'react-json-editor-ajrm';
 
 interface IProps {
-  content: any
+  content: any;
   change?: (obj: any) => void
   height: string;
-  [key: string]: any
+  options?: any;
+  [key: string]: any;
 }
 
-const jsonEditor = ({ content, change, height, ...layout }: IProps) => {
+const jsonEditor = ({ content, change, height, options, ...layout }: IProps) => {
   const [messageApi, contextHolder] = message.useMessage()
 
   const onChange = (e: any) => {
@@ -37,10 +38,12 @@ const jsonEditor = ({ content, change, height, ...layout }: IProps) => {
     <div {...layout}>
       {contextHolder}
       <JSONInput
+        {...options}
+        locale={locale}
         placeholder={content}
         id="my-json-edit-input"
         height={height}
-        onChange={onChange} />
+        onBlur={onChange} />
     </div>
   )
 }
