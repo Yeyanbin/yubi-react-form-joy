@@ -30,6 +30,10 @@ const useFormContent = (
         if (item[key].value !== undefined || item[key].expression !== undefined) {
           // 查看是否带有value或者expression属性，是则认为其是值对象
           newItem[key] = handleValueObject(item[key])
+
+        } else if (item[key] === undefined){
+
+          newItem[key] = undefined;
         } else {
           // 继续深拷贝
           newItem[key] = handleNormalObject(item[key])
@@ -60,14 +64,16 @@ const useFormContent = (
     //   computeValue = handleExpression(expression) || value;
     //   computeValue = computeValue === 'false' ? false : Boolean(computeValue);
     // }
-    return (expression && handleExpression(expression)) || value
+    // return (expression && handleExpression(expression)) || value
+    return handleExpression(expression) || value
   }
 
-  const handleExpression = expression =>
-    // console.log(expression);
-    // console.log(toReversePolishNotation(expression));
-    // console.log(computeReversePolishNotation(toReversePolishNotation(expression)));
-    computeReversePolishNotation(toReversePolishNotation(expression))
+  const handleExpression = expression => {
+    // console.log('11112222', expression);
+    // console.log('11112222', toReversePolishNotation(expression));
+    // console.log('11112222', computeReversePolishNotation(toReversePolishNotation(expression)));
+    return computeReversePolishNotation(toReversePolishNotation(expression));
+  }
 
   const newContent: any[] = []
 

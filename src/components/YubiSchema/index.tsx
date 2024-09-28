@@ -38,7 +38,8 @@ const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, isShowFormData, is
   const formRef = React.useRef<FormInstance>(null)
 
   useEffect(() => {
-    console.log(config?.name, '重新加载 content', formValue, ...content)
+    // if ()
+    // console.log(config?.name, '11112222', '重新加载 content', formValue, content, state)
     setFormContent(useFormContent(content, useExpressionCompute(state || {}, formValue || {})))
     formRef.current?.setFieldsValue(formValue || {})
   }, [formValue, content])

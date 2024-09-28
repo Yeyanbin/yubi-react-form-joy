@@ -30,7 +30,6 @@ export default (state, formData, opt: IOptions = {}) => {
     '=': (num1, num2) => {
       const num1Type = typeof num1;
       const num2Type = typeof num2;
-      // console.log('11112332 =', num1, num1Type, num2, num2Type);
       if (num1Type === 'number' && num2Type === 'number') {
         return num1 === num2 ? opt.trueValue ?? DEFAULT_TRUE_VALUE : opt.falseValue ?? DEFAULT_FALSE_VALUE;
       } else if (num1Type === 'boolean') {
@@ -38,8 +37,7 @@ export default (state, formData, opt: IOptions = {}) => {
       } else if (num1Type === 'object' && num2Type === 'object') {
         return JSON.stringify(num1) === JSON.stringify(num2);
       } else {
-        // console.log('num1 === num2 ', num1 === num2);
-        return num1 == num2;
+        return !!num1 == !!num2;
       }
     },
     '>': (num1, num2) => (num1 > num2 ? opt.trueValue ?? DEFAULT_TRUE_VALUE : opt.falseValue ?? DEFAULT_FALSE_VALUE),
@@ -102,9 +100,10 @@ export default (state, formData, opt: IOptions = {}) => {
     return [value, i]
   }
 
-  const handleCompute = (num2, num1, sign) =>
-    // console.log(operaCompute[sign], sign, num1, num2);
-    operaCompute[sign](num1, num2)
+  const handleCompute = (num2, num1, sign) => {
+    // console.log('11112222', operaCompute[sign], sign, num1, num2);
+    return operaCompute[sign](num1, num2)
+  }
   /**
    * 中缀表达式转换逆波兰表达式
    *

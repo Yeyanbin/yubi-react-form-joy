@@ -16,6 +16,7 @@ export interface IFormItem {
   prop: string
   component: string;
   // deriveComponent?: string | any | undefined
+  // 渲染组件的时候的属性
   renderComponent?: any
   // options?: IOption[] // 对options类组件进行额外处理和封装
   label: string | IExpression<string>

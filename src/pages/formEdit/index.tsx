@@ -176,6 +176,7 @@ const FormEdit: FC<IProps> = ({ formConfig, formContent }) => {
     <div className={editFormStyles.wrap}>
       <div className={editFormStyles.container}>
         <div className={editFormStyles.container_editBoard}>
+          <p style={{textAlign: 'center'}}>Tips: 可以尝试点击一下【修改】</p>
           <EditBoard toModifyCb={toModify} toDeleteCb={toDelete} content={renderContent} />
           <div className={editFormStyles.container_editBoard_item}>
             <Button
@@ -298,7 +299,14 @@ const FormEdit: FC<IProps> = ({ formConfig, formContent }) => {
             }
             style={{ width: 600 }}
           >
-            <YubiForm config={nowFormConfig} style={{ height: '500px', overflow: 'auto' }} isShowFormData content={renderContent} />
+            <YubiForm
+              state={{
+                user: ''
+              }}
+              config={nowFormConfig} 
+              style={{ height: '500px', overflow: 'auto' }} 
+              isShowFormData 
+              content={renderContent} />
         </Card>
       </div>
     </div>
@@ -341,10 +349,20 @@ const defaultFormContent: Array<INormalItem | IFormItem> = [
     component: 'Input.Password',
     label: '密码',
     prop: 'password',
+    renderComponent: {
+      defaultProps: {
+        action: 'click',
+        visibilityToggle: true
+      },
+      displayName: 'Password'
+    },
+    hidden: {
+      expression: '{user}=0'
+    }
   },
   {
     component: 'p',
-    innerHtml: '一个普通的P标签',
+    innerHtml: '这里的密码输入框用了表达式{user}=0时隐藏，即需要输入账号才会显示密码框。',
   },
   {
     component: 'Input.TextArea',

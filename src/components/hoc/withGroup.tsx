@@ -1,15 +1,18 @@
 
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
+// import { useAppContext } from 'src/provider/app';
 
-const withGroup = (component, opt) => (props) => {
-    const router = useRouter();
-    const { user } = useAppContext(); // 检查用户是否登录的逻辑
+// const withGroup = (component, opt) => (props) => {
+//     const router = useRouter();
+//     const { user } = useAppContext(); // 检查用户是否登录的逻辑
 
-    if (!user) {
-      router.push('/login');
-      return null;
-    }
-    preMount();
+//     if (!user) {
+//       router.push('/login');
+//       return null;
+//     }
+//     preMount();
 
-    return withLoading(<Component {...props} />);
-  }
+//     return withLoading(<Component {...props} />);
+//   }
+
+export {};
