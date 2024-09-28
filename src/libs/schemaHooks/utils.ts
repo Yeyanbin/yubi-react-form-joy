@@ -9,7 +9,8 @@ export const getDefaultFormValue = (content: any[], state = {}) => {
   const obj = {}
   content.forEach(item => {
     if (!item.prop) return
-    obj[item.prop] = state[item.prop] || ''
+    if (state[item.prop] !== undefined)
+      obj[item.prop] = state[item.prop];
   })
   // console.log('default Form Value', obj);
   return obj

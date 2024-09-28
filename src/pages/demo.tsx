@@ -9,8 +9,26 @@ function MyComponent() {
     event.stopPropagation()
   }
 
+  /* 标记，此处为用户自己编写 */
+
+
+  /* 标记结束 */
+
+  // 组件A：产品来写下这个事件要做啥，
+  const attr = {
+    /* 标记，此处为用户自己编写 */
+    onchange: () => {
+      console.log('test')
+    },
+    style: {
+      height: '800px',
+    },
+    className: 'opPage__wrap'
+    /* 标记结束 */
+  }
+
   return (
-    <div id="outer" ref={outerRef} onClickCapture={handleClick}>
+    <div id="outer" ref={outerRef} onClickCapture={handleClick} {...attr}>
       <div id="inner" ref={innerRef} onClickCapture={handleClick}>
         Click me!
       </div>

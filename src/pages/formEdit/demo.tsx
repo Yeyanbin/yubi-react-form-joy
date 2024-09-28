@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
 // hellworld.tsx 可复制到项目中尝试创建页面
 import React, { useEffect, useState } from 'react'
-import YubiForm from 'src/components/YubiForm'
-import { ISchemaItem } from 'src/components/YubiForm/type'
+import YubiForm from 'src/components/YubiSchema'
+import { ISchemaItem } from 'src/components/YubiSchema/type'
 
 import editFormDemoStyles from 'src/styles/editFormDemo.module.scss'
-import JsonEditor from 'pagesComponents/editForm/demo/jsonEditor'
-import { useAntdComponent } from 'src/components/YubiForm/antdComponents'
+import JsonEditor from 'src/components/jsonEditor'
+import { useAntdComponent } from 'src/components/YubiSchema/antdComponents'
+
 
 interface IProps {
   name: string

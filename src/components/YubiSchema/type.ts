@@ -36,7 +36,7 @@ export interface INormalItem {
 }
 
 
-export type ISchemaItem = INormalItem | IFormItem;
+export type ISchemaItem = IFormItem;
 
 export interface IFormConfig {
   name: string
@@ -47,7 +47,7 @@ export interface IFormConfig {
 
 export interface IFormSchema {
   config: IFormConfig
-  content: Array<INormalItem | IFormItem>;
+  content: Array<ISchemaItem>;
   defaultState?: any;
 }
 

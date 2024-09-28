@@ -1,4 +1,3 @@
-#!/usr/bin/env sh
 
 # 忽略错误
 set -e
@@ -25,6 +24,5 @@ git commit -m 'deploy'
 
 # 如果是部署到 https://<USERNAME>.github.io/<REPO>
 git push -f https://github.com/Yeyanbin/yubi-react-schema-form.git master:gh-pages
-# git push -f git@github.com:Yeyanbin/yubi-blog.git master:gh-pages
 
 # cd -

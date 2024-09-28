@@ -1,6 +1,6 @@
 
 import { AxiosResponse } from 'axios'
-import { IFormSchema } from 'src/components/YubiForm/type'
+import { IFormSchema } from 'src/components/YubiSchema/type'
 import request from 'src/utils/request'
 
 // export const getJsonByKey = (key: string): Promise<AxiosResponse<IFormSchema>> => request.post(`/getJsonByKey`, { key })

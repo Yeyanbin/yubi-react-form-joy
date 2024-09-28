@@ -1,32 +1,33 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable no-unused-expressions */
-import EditBoard from 'pagesComponents/editForm/editBoard'
+import EditBoard from 'src/pagesComponents/editForm/editBoard'
+import PreviewDialog from 'src/pagesComponents/editForm/previewDialog'
 import React, { FC, useEffect, useRef, useState } from 'react'
-import { IFormConfig, INormalItem, IFormItem, IFormSchema } from 'src/components/YubiForm/type'
-import { TComponentType, useAntdComponent } from 'src/components/YubiForm/antdComponents'
+import { IFormConfig, INormalItem, IFormItem, IFormSchema } from 'src/components/YubiSchema/type'
+import { TComponentType, useAntdComponent } from 'src/components/YubiSchema/antdComponents'
 import editFormStyles from 'src/styles/editForm.module.scss'
 import editFormDemoStyles from 'src/styles/editFormDemo.module.scss'
 
 import { Card, Button } from 'antd'
-import YubiForm from 'src/components/YubiForm'
+import YubiForm from 'src/components/YubiSchema'
 import {
   getAntdComponentSchema,
   schemaFormConfig,
   schemaItemBaseForm,
   schemaItemNormalForm,
-} from 'pagesComponents/editForm/formConfig'
+} from 'src/pagesComponents/editForm/formConfig'
 import { PlusOutlined } from '@ant-design/icons';
 // import { initPlanish, planishObject, rePlanishObjectSchemaItem } from 'src/components/YubiForm/utils'
-import JsonEditor from 'pagesComponents/editForm/demo/jsonEditor'
+import JsonEditor from 'src/components/jsonEditor'
 import { getJsonByKey, getJsonByKeyList } from 'src/api/formJson'
 
 interface IProps {
-  formContent: Array<INormalItem | IFormItem>
+  formContent: Array<IFormItem>
   formConfig: IFormConfig
 }
 
 interface INowModify {
-  contentItem: INormalItem | IFormItem
+  contentItem: IFormItem
   index: number
 }
 
@@ -47,13 +48,13 @@ const FormEdit: FC<IProps> = ({ formConfig, formContent }) => {
   }, [])
 
   // 目前的schema
-  const [schemaContent, setSchemaContent] = useState<Array<INormalItem | IFormItem>>(formContent);
+  const [schemaContent, setSchemaContent] = useState<Array<IFormItem>>(formContent);
   // 含有渲染组件的schema
   const [renderContent, setRenderContent] = useState(useAntdComponent(schemaContent))
   // 目前的IFormSchema
   const [formSchema, setFormSchema] = useState<IFormSchema>();
 
-  const [nowFormConfig, setNowFormConfig] = useState(formConfig);
+  const [nowFormConfig, setNowFormConfig] = useState(formConfig || {});
   useEffect(() => {
     setFormSchema({
       content: schemaContent,
@@ -79,12 +80,12 @@ const FormEdit: FC<IProps> = ({ formConfig, formContent }) => {
   // );
 
   // 现在的被修改的组件的schemaItem
-  const [nowPreSaveSchemaItem, setNowPreSaveSchemaItem] = useState<INormalItem | IFormItem>();
+  const [nowPreSaveSchemaItem, setNowPreSaveSchemaItem] = useState<IFormItem>();
 
   const [schemaitemBaseContent] = useState(useAntdComponent(schemaItemBaseForm.content))
   const [schemaitemNromalContent] = useState(useAntdComponent(schemaItemNormalForm.content))
 
-  const toModify = (contentItem: INormalItem | IFormItem, index: number) => {
+  const toModify = (contentItem: IFormItem, index: number) => {
     setNowModify({ contentItem, index } as any)
     console.log('选择了', contentItem, index)
     setNowPreSaveSchemaItem(contentItem);
@@ -100,7 +101,7 @@ const FormEdit: FC<IProps> = ({ formConfig, formContent }) => {
     setSchemaContent([...schemaContent.slice(0, index), ...schemaContent.slice(index + 1)])
   }
 
-  const changeSchemaItemBase = (schemaItem: INormalItem | IFormItem) => {
+  const changeSchemaItemBase = (schemaItem: IFormItem) => {
     console.log('changeSchemaItemBase', schemaItem)
     setNowPreSaveSchemaItem({
       ...nowPreSaveSchemaItem,
@@ -172,119 +173,134 @@ const FormEdit: FC<IProps> = ({ formConfig, formContent }) => {
   }, [schemaContent])
 
   return (
-    <div className={editFormStyles.container}>
-      <div className={editFormStyles.container_editBoard}>
-        <EditBoard toModifyCb={toModify} toDeleteCb={toDelete} content={renderContent} />
-        <div className={editFormStyles.container_editBoard_item}>
-          <Button
-            type="dashed"
-            style={{ width: '300px' }}
-            onClick={() => addContent('formItem')}
-            icon={<PlusOutlined />}
-          >
-            增加表单项
-          </Button>
-          <Button
-            type="dashed"
-            style={{ width: '150px' }}
-            onClick={() => addContent('normal')}
-            icon={<PlusOutlined />}
-          >
-            增加普通标签
-          </Button>
-        </div>
-        <JsonEditor
-          options={{
-            viewOnly: true
-          }}
-          height="500px"
-          className={editFormDemoStyles.container_jsonSchema}
-          content={formSchema}
-        />
-      </div>
-      <div>
-        <Card
-          title="表单属性"
-          extra={
-            <Button type="primary" size="small" onClick={saveFormConfig}>
-              保存表单配置（待完成
+    <div className={editFormStyles.wrap}>
+      <div className={editFormStyles.container}>
+        <div className={editFormStyles.container_editBoard}>
+          <EditBoard toModifyCb={toModify} toDeleteCb={toDelete} content={renderContent} />
+          <div className={editFormStyles.container_editBoard_item}>
+            <Button
+              type="dashed"
+              style={{ width: '300px' }}
+              onClick={() => addContent('formItem')}
+              icon={<PlusOutlined />}
+            >
+              增加表单项
             </Button>
-          }
-          style={{ width: 400 }}
-        >
-          <YubiForm ref={formConfigFormRef}
-            config={schemaFormConfig.config}
-            state={formConfig}
-            content={schemaContentFormConfigRender}
-            change={changeSchemaFormConfig} />
-        </Card>
-        <Card
-          title="表单预览"
-          // extra={
-          //   <Button type="primary" size="small">
-          //     刷新表单
-          //   </Button>
-          // }
-          style={{ width: 400 }}
-        >
-          <YubiForm config={formConfig} content={renderContent} />
-        </Card>
-      </div>
-      (<div>
-        {nowModify && (
+            <Button
+              type="dashed"
+              style={{ width: '150px' }}
+              onClick={() => addContent('normal')}
+              icon={<PlusOutlined />}
+            >
+              增加普通标签
+            </Button>
+          </div>
+          <JsonEditor
+            options={{
+              viewOnly: true
+            }}
+            height="500px"
+            className={editFormDemoStyles.container_jsonSchema}
+            content={formSchema}
+          />
+        </div>
+        {/* <div>
           <Card
-            title={`表单项 —— ${(nowModify?.contentItem as IFormItem).label}`}
+            title="表单属性"
             extra={
-              <Button type="primary" size="small" onClick={saveSchemaItem}>
-                保存表单项
+              <Button type="primary" size="small" onClick={saveFormConfig}>
+                保存表单配置（待完成
               </Button>
             }
             style={{ width: 400 }}
           >
-            {(nowModify?.contentItem as any).prop ? (
-              <div className={editFormStyles.container_form__content}>
-                <YubiForm
-                  ref={componentBaseFormRef}
-                  config={schemaItemBaseForm.config}
-                  state={nowPreSaveSchemaItem}
-                  content={schemaitemBaseContent}
-                  change={changeSchemaItemBase}
-                />
-              </div>
-            ) : (
-              <div className={editFormStyles.container_form__content}>
-                <YubiForm
-                  ref={componentBaseFormRef}
-                  config={schemaItemNormalForm.config}
-                  state={nowPreSaveSchemaItem}
-                  content={schemaitemNromalContent}
-                  change={changeSchemaItemBase}
-                />
-              </div>
-            )}
+            <YubiForm ref={formConfigFormRef}
+              config={schemaFormConfig.config}
+              state={formConfig}
+              content={schemaContentFormConfigRender}
+              change={changeSchemaFormConfig} />
           </Card>
-        )}
-        {nowComponentSchema && (
-          <Card title={nowComponentSchema.config?.name} style={{ width: 400 }}>
-            <div className={editFormStyles.container_form__content}>
-              <YubiForm
-                className={editFormStyles.container_form__content}
-                ref={componentAttrFormRef}
-                config={nowComponentSchema.config}
-                state={{
-                  ...nowComponentSchema.defaultState,
-                  ...nowPreSaveSchemaItem?.attr,
-                }}
-                content={nowComponentSchema.content}
-                change={changeSchemaItemComponentSelf}
-              />
-            </div>
-          </Card>
-        )}
+        </div> */}
         <div>
-          {JSON.stringify(nowPreSaveSchemaItem)}
+          {nowModify && (
+            <Card
+              title={`表单项 —— ${(nowModify?.contentItem as IFormItem).label}`}
+              extra={
+                <Button type="primary" size="small" onClick={saveSchemaItem}>
+                  保存表单项
+                </Button>
+              }
+              style={{ width: 500 }}
+            >
+              {(nowModify?.contentItem as any).prop ? (
+                <div className={editFormStyles.container_form__content}>
+                  <YubiForm
+                    ref={componentBaseFormRef}
+                    config={schemaItemBaseForm.config}
+                    state={nowPreSaveSchemaItem}
+                    content={schemaitemBaseContent}
+                    change={changeSchemaItemBase}
+                  />
+                </div>
+              ) : (
+                <div className={editFormStyles.container_form__content}>
+                  <YubiForm
+                    ref={componentBaseFormRef}
+                    config={schemaItemNormalForm.config}
+                    state={nowPreSaveSchemaItem}
+                    content={schemaitemNromalContent}
+                    change={changeSchemaItemBase}
+                  />
+                </div>
+              )}
+            </Card>
+          )}
+          {nowComponentSchema && (
+            <Card title={nowComponentSchema.config?.name} style={{ width: 500 }}>
+              <div className={editFormStyles.container_form__content}>
+                <YubiForm
+                  className={editFormStyles.container_form__content}
+                  ref={componentAttrFormRef}
+                  config={nowComponentSchema.config}
+                  state={{
+                    ...nowComponentSchema.defaultState,
+                    ...nowPreSaveSchemaItem?.attr,
+                  }}
+                  content={nowComponentSchema.content}
+                  change={changeSchemaItemComponentSelf}
+                />
+              </div>
+            </Card>
+          )}
+          <div style={{
+            width: 500
+          }}>
+            {/* {JSON.stringify(nowPreSaveSchemaItem)} */}
+            {nowPreSaveSchemaItem && <JsonEditor
+              options={{
+                viewOnly: true
+              }}
+              height="500px"
+              width='490px'
+              className={editFormDemoStyles.container_jsonSchema}
+              content={nowPreSaveSchemaItem}
+            />}
+          </div>
         </div>
-      </div>)
+      </div>
+
+
+      <div className={editFormStyles.container_preview}>
+        <Card
+            title="表单预览"
+            extra={
+              <PreviewDialog btnText='生成预览代码' onClick={(update) => update(formSchema)}/>
+            }
+            style={{ width: 600 }}
+          >
+            <YubiForm config={nowFormConfig} style={{ height: '500px', overflow: 'auto' }} isShowFormData content={renderContent} />
+        </Card>
+      </div>
     </div>
   )
 }
@@ -300,6 +316,19 @@ export const getStaticProps = async () => {
 }
 
 const defaultFormContent: Array<INormalItem | IFormItem> = [
+  {
+    label: '高度',
+    component: 'UnitInput',
+    prop: 'height',
+    attr: {
+      options: [
+        { value: 'px' },
+        { value: 'vh' },
+        { value: 'rem' },
+        { value: 'em' },
+      ],
+    }
+  },
   {
     component: 'Input',
     label: '登陆',

@@ -22,7 +22,12 @@ const OptionInput: FC<IProps> = ({ value, onChange, useDisabled }) => {
   // const options = value || [];
 
   const change = (newValue: any, type: 'label' | 'value' | 'disabled', index: number) => {
-    options[index][type as string] = newValue;
+    if (!newValue) {
+      // newValue = undefined;
+      delete options[index][type as string]
+    } else {
+      options[index][type as string] = newValue;
+    }
     // setOptions(options);
     onChange?.(options)
   }

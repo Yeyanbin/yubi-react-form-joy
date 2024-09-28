@@ -63,10 +63,12 @@
     "@reduxjs/toolkit": "1.8.5",
     "antd": "^4.9.3",
     "axios": "^0.21.0",
+    "ejs": "^3.1.9",
     "i18next": "^19.8.4",
     "next": "10.0.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-highlight": "^0.15.0",
     "react-i18next": "^11.8.4",
     "react-json-editor-ajrm": "^2.5.14",
     "react-redux": "^7.2.2",
@@ -116,6 +118,7 @@
     "jest-specific-snapshot": "^4.0.0",
     "jest-styled-components": "7.0.3",
     "lint-staged": "^10.5.3",
+    "postcss": "7.0.1",
     "prettier": "^2.2.1",
     "standard-version": "^9.0.0",
     "storybook-addon-next-router": "^2.0.3",
@@ -125,7 +128,6 @@
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-order": "^4.1.0",
     "stylelint-processor-styled-components": "^1.10.0",
-    "typescript": "^4.1.2",
-    "postcss": "7.0.1"
+    "typescript": "^4.1.2"
   }
 }

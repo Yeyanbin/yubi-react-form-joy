@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 
 import React, { FC, useEffect, useState } from 'react'
-import { ISchemaItem } from 'src/components/YubiForm/type'
+import { ISchemaItem } from 'src/components/YubiSchema/type'
 import editFormStyles from 'src/styles/editForm.module.scss'
 import ListItem from './listItem';
 
@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const editBoard: FC<IProps> = ({ content, toModifyCb, toDeleteCb, ...layout }) => {
-  const [componentList, setComponentList] = useState(content)
+  const [componentList, setComponentList] = useState<ISchemaItem[]>()
   // const [pageType, setPageType] = useState();
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const editBoard: FC<IProps> = ({ content, toModifyCb, toDeleteCb, ...layout }) =
 
   return (
     <>
-      {componentList.map((item, index) => (
+      {componentList?.map((item, index) => (
         <ListItem
           toDeleteCb={toDeleteCb}
           toModifyCb={toModifyCb}

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 import React, { FC, useRef, useState } from 'react'
-import { INormalItem, ISchemaItem } from 'src/components/YubiForm/type'
-import YubiForm from 'src/components/YubiForm'
+import { INormalItem, ISchemaItem } from 'src/components/YubiSchema/type'
+import YubiForm from 'src/components/YubiSchema'
 import editFormStyles from 'src/styles/editForm.module.scss'
 import { Button, Radio } from 'antd'
 
@@ -35,7 +35,7 @@ const ListItem: FC<IProps> = ({ contentItem, contentItemIndex, toModifyCb, toDel
   return (
     <div {...layout} className={editFormStyles.container_editBoard_item} onClickCapture={click}>
       <div className={editFormStyles.container_editBoard_item__content}>
-        <YubiForm change={() => { }} isEdit content={[contentItem]} />
+        {contentItem && <YubiForm change={() => { }} isEdit content={[contentItem]} />}
       </div>
       <div className={editFormStyles.container_editBoard_item__btn}>
         <Button danger size="small" value="large" onClick={toDelete}>

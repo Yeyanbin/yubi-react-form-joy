@@ -30,17 +30,16 @@ export default (state, formData, opt: IOptions = {}) => {
     '=': (num1, num2) => {
       const num1Type = typeof num1;
       const num2Type = typeof num2;
-
+      // console.log('11112332 =', num1, num1Type, num2, num2Type);
       if (num1Type === 'number' && num2Type === 'number') {
         return num1 === num2 ? opt.trueValue ?? DEFAULT_TRUE_VALUE : opt.falseValue ?? DEFAULT_FALSE_VALUE;
-      }
-
-      if (num1Type === 'boolean') {
+      } else if (num1Type === 'boolean') {
         return num1 === !!num2;
-      }
-
-      if (num1Type === 'object' && num2Type === 'object') {
+      } else if (num1Type === 'object' && num2Type === 'object') {
         return JSON.stringify(num1) === JSON.stringify(num2);
+      } else {
+        // console.log('num1 === num2 ', num1 === num2);
+        return num1 == num2;
       }
     },
     '>': (num1, num2) => (num1 > num2 ? opt.trueValue ?? DEFAULT_TRUE_VALUE : opt.falseValue ?? DEFAULT_FALSE_VALUE),
@@ -154,8 +153,8 @@ export default (state, formData, opt: IOptions = {}) => {
         // continue;
       } else {
         // 是 元素
-        let num = 0
-          ;[num, i] = handleElement(expression, i) // 获取元素
+        let num = 0;
+        [num, i] = handleElement(expression, i) // 获取元素
         elementStack.push(num)
       }
     }

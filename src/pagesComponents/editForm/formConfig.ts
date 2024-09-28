@@ -1,8 +1,8 @@
 import {
   TComponentType,
   useAntdComponentByFormSchema,
-} from 'src/components/YubiForm/antdComponents'
-import { IFormSchema } from 'src/components/YubiForm/type'
+} from 'src/components/YubiSchema/antdComponents'
+import { IFormSchema } from 'src/components/YubiSchema/type'
 
 export const schemaFormConfig: IFormSchema = {
   config: {
@@ -88,7 +88,8 @@ export const schemaItemBaseForm: IFormSchema = {
           { value: 'Input.TextArea', label: '文本输入框' },
           { value: 'Select', label: '选择框' },
           { value: 'Radio', label: '单选' },
-          { value: 'Switch', label: '开关' }
+          { value: 'Switch', label: '开关' },
+          { value: 'UnitInput', label: '带单位的输入框' },
         ],
       },
       rules: [{ required: true }],
@@ -255,6 +256,18 @@ export const schemaSelectForm: IFormSchema = {
       attr: {
         useDisabled: true,
       }
+    },
+    {
+      component: 'Select',
+      prop: 'mode',
+      label: '模式',
+      attr: {
+        options: [
+          { value: '', label: '单选' },
+          { value: 'multiple', label: '多选' },
+          { value: 'tags', label: '标签' }
+        ]
+      }
     }
   ]
 };
@@ -318,6 +331,22 @@ const schemaSwitchForm: IFormSchema = {
 
   ]
 }
+const unitInputForm: IFormSchema = {
+  config: {
+    key: 'unitInput-key',
+    name: '带单位的输入框的属性表单'
+  },
+  content: [
+    {
+      component: 'OptionInput',
+      prop: 'options',
+      label: '选项',
+      attr: {
+        useDisabled: true,
+      }
+    }
+  ]
+}
 
 export const schemaInputDefaultValue = {
   // prop: ''
@@ -330,6 +359,7 @@ const ANTD_COMPONENT_SCHEMA_MAP = {
   'Input.Password': schemaInputForm,
   'Input.TextArea': schemaTextareaForm,
   Switch: schemaSwitchForm,
+  UnitInput: unitInputForm,
 };
 
 export const getAntdComponentSchema = (componentType: TComponentType | string) =>

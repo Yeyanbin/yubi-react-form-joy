@@ -4,6 +4,7 @@ import OptionInput from './components/optionInput/index';
 import useExpressionInput from './components/useExpressionInput';
 import SchemaSwitch from './components/antdSchema/SchemaSwitch';
 import RequiredInput from './components/requiredInput';
+import UnitInput from './components/unitInput';
 
 
 // 可以搞一个HOC来封装一下，处理Expression
@@ -21,6 +22,7 @@ export const componetMap = {
   'Edit.Input.TextArea': useExpressionInput(Input.TextArea),
   'Edit.Switch': useExpressionInput(SchemaSwitch),
   RequiredInput,
+  UnitInput,
 }
 
 export type TComponentType = 'Input' | 'Select' | 'Radio' | undefined

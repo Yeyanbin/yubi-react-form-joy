@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, message } from 'antd'
-import editFormDemoStyles from 'src/styles/editFormDemo.module.scss'
 import locale from 'react-json-editor-ajrm/locale/zh-cn';
 import JSONInput from 'react-json-editor-ajrm';
 
@@ -9,10 +8,11 @@ interface IProps {
   change?: (obj: any) => void
   height: string;
   options?: any;
+  width?: string;
   [key: string]: any;
 }
 
-const jsonEditor = ({ content, change, height, options, ...layout }: IProps) => {
+const jsonEditor = ({ content, change, height, width, options, ...layout }: IProps) => {
   const [messageApi, contextHolder] = message.useMessage()
 
   const onChange = (e: any) => {
@@ -35,7 +35,7 @@ const jsonEditor = ({ content, change, height, options, ...layout }: IProps) => 
   }
 
   return (
-    <div {...layout}>
+    <div {...layout} style={{ textAlign: 'left', }}    >
       {contextHolder}
       <JSONInput
         {...options}
@@ -43,6 +43,7 @@ const jsonEditor = ({ content, change, height, options, ...layout }: IProps) => 
         placeholder={content}
         id="my-json-edit-input"
         height={height}
+        width={width}
         onBlur={onChange} />
     </div>
   )

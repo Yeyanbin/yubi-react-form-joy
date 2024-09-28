@@ -9,6 +9,7 @@ import { FormInstance } from 'antd/lib/form'
 import YubiFormItem from './YubiFormItem';
 import { IFormConfig, IFormItem, INormalItem } from './type'
 import YubiFormStyles from './yubiForm.module.scss'
+import JsonEditor from '../jsonEditor'
 
 interface IFieldData {
   name: string | number | (string | number)[]
@@ -19,7 +20,8 @@ interface IFieldData {
 }
 
 interface IProps {
-  isOnlyRender?: boolean
+  isOnlyRender?: boolean;
+  isShowFormData?: boolean;
   content: Array<INormalItem | IFormItem>
   config?: IFormConfig
   state?: any
@@ -30,7 +32,7 @@ interface IProps {
   [key: string]: any
 }
 
-const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, isEdit, config, change, ...layout }, ref) => {
+const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, isShowFormData, isEdit, config, change, ...layout }, ref) => {
   const [formValue, setFormValue] = useState<any>(getDefaultFormValue(content, state))
   const [formContent, setFormContent] = useState<Array<INormalItem | IFormItem>>()
   const formRef = React.useRef<FormInstance>(null)
@@ -74,7 +76,7 @@ const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, isEdit, config, ch
     <>
       <Form
         {...layout}
-        {...config?.attr}
+        {...config as any}
         ref={formRef}
         initialValues={formValue}
         className={YubiFormStyles.yubiform_container}
@@ -84,6 +86,15 @@ const YubiForm: FC<IProps> = ({ content, state, isOnlyRender, isEdit, config, ch
       >
         {FormContent}
       </Form>
+      {isShowFormData && (
+        <JsonEditor
+          content={formValue}
+          height="200px"
+          width='100%'
+          options={{
+            viewOnly: true
+          }} />
+      )}
     </>
   )
 }

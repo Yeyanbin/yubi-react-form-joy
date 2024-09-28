@@ -1,10 +1,22 @@
+
+.wrap {
+  display: flex;
+  // direction;
+  justify-content: space-between;
+  background-color: #cdcdcd;
+  width: 100vw;
+  overflow: auto;
+}
+
 .container {
   display: flex;
-  margin: 10px 20px;
+  margin: 10px;
+  gap: 8px;
 
   &_editBoard {
     padding: 0 10px;
     width: 500px;
+    background-color: white;
 
     :global(.ant-form-item) {
       margin-bottom: 0px;
@@ -22,6 +34,7 @@
 
       &__content {
         width: 300px;
+        // height: 500px;
         overflow: auto;
       }
 
@@ -39,5 +52,11 @@
       height: 300px;
       overflow: auto;
     }
+  }
+
+  &_preview {
+    position: relative;
+    right: 0px;
+    padding: 10px 0px;
   }
 }
